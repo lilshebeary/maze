@@ -128,3 +128,22 @@ horizontals.forEach((row, rowIndex) => {
         World.add(world, wall);
     });
 });
+
+verticals.forEach((row, rowIndex) => {
+    row.forEach((open, columnIndex) => {
+        if (open) {
+            return;
+        }
+
+        const wall = Bodies.rectangle(
+            columnIndex * unitLength + unitLength,
+            rowIndex * unitLength + unitLength / 2,
+            1,
+            unitLength,
+            {
+                isStatic: true
+            }
+        );
+        World.add(world, wall);
+    });
+});
