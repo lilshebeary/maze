@@ -1,6 +1,6 @@
 const { Engine, Render, Runner, World, Bodies } = Matter;
 
-const cells = 3;
+const cells = 5;
 const width = 600;
 const height = 600;
 
@@ -148,6 +148,7 @@ verticals.forEach((row, rowIndex) => {
     });
 });
 
+// Goal
 const goal = Bodies.rectangle(
     width - unitLength / 2,
     height - unitLength / 2,
@@ -159,3 +160,30 @@ const goal = Bodies.rectangle(
 
 );
 World.add(world, goal);
+
+// Ball
+const ball = Bodies.circle(
+    unitLength / 2,
+    unitLength / 2,
+    unitLength / 3,
+);
+World.add(world, ball);
+
+document.addEventListener('keydown', event => {
+    // w
+    if(event.keyCode === 87) {
+        console.log('move ball up');
+    }
+    // d
+    if(event.keyCode === 68) {
+        console.log('move ball right');
+    }
+    // s
+    if(event.keyCode === 83) {
+        console.log('move ball down');
+    }
+    // a
+    if(event.keyCode === 65) {
+        console.log('move ball left');
+    }
+});
