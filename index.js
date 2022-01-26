@@ -4,6 +4,8 @@ const cells = 3;
 const width = 600;
 const height = 600;
 
+const unitLength = width / cells;
+
 const engine = Engine.create();
 const { world } = engine;
 const render = Render.create({
@@ -74,7 +76,8 @@ const stepThroughCell = (row, column) => {
         [row + 1, column, 'down'],
         [row, column - 1, 'left']
     ]);
-    console.log(neighbors);
+    // console.log(neighbors);
+
     // see if any neighbors left out of bounds
     for (let neighbor of neighbors){
         const [nextRow, nextColumn, direction] = neighbor;
@@ -86,6 +89,7 @@ const stepThroughCell = (row, column) => {
         if(grid[nextRow][nextColumn]) {
             continue;
         }
+
     // remove wall
         if(direction === 'left') {
             verticals[row][column - 1] = true; 
@@ -97,10 +101,30 @@ const stepThroughCell = (row, column) => {
             horizontals[row][column] = true;
         }
 
+        stepThroughCell(nextRow, nextColumn);
     }
     // visit next cell
 
 };
 
 stepThroughCell(startRow, startColumn);
-console.log(grid);
+// console.log(grid);
+
+horizontals.forEach((row, rowIndex) => {
+    row.forEach((open, columnIndex) => {
+        if(open === true){
+            return;
+        }
+
+        const wall = Bodies.rectangle(
+            columnIndex * unitLength + unitLength / 2,
+            rowIndex * unitLength + unitLength,
+            unitLength,
+            1,
+            {
+                isStatic: true
+            }
+        );
+        World.add(world, wall);
+    });
+});
